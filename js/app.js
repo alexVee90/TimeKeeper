@@ -1,12 +1,15 @@
 //
 
+let user = JSON.parse(localStorage.getItem('user')) || {};
+
 if (window.location.pathname === '/index.html') { 
 
+  if(Object.keys(user).length) window.location.pathname = './pages/alreadyLoggedIn.html';
+  
   const name = document.getElementById('name');
   const email = document.getElementById('email');
   const password = document.getElementById('password');
   const loginBtn = document.getElementById('login-btn');
-  const user = {};
   let errors = [];
   
   loginBtn.addEventListener('click', function(e) { 
@@ -38,16 +41,21 @@ if (window.location.pathname === '/index.html') {
     }
   });
 
-} else if (window.location.pathname=== "/pages/tasks.html") { 
+} else if (window.location.pathname === "/pages/tasks.html") { 
 
-  const user = localStorage.getItem('user');
+  if(!Object.keys(user).length) window.location.pathname = './pages/notLoggedIn.html';
 
-  if(user) { 
-    const { name, email, password } = JSON.parse(user);
+    const { name, email, password } = user;
     const clientName = document.getElementById('client-name');
     clientName.innerText = `Welcome ${name}`;
-  }
+    
 
+} else if (window.location.pathname === '/pages/alreadyLoggedIn.html') { 
+  const logout = document.getElementById('logout');
+  logout.addEventListener('click', function(e){
+    localStorage.removeItem('user');
+    window.location.pathname = '/index.html';
+  })
 }
 
 

@@ -60,6 +60,14 @@
   border-radius: 10px;
 }
 
+/* Already logged in && Not Logged in */
+#already-logged-in,
+#not-logged-in {
+  margin: 2rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
 
 /* FOOTER */
 #main-footer { 
