@@ -2,7 +2,7 @@ let user = JSON.parse(localStorage.getItem('user')) || {};
 
 if (window.location.pathname === '/index.html') { 
 
-  if(Object.keys(user).length) window.location.pathname = './pages/alreadyLoggedIn.html';
+  if(Object.keys(user).length) window.location.pathname = '/pages/alreadyLoggedIn.html';
   
   const name = document.getElementById('name');
   const email = document.getElementById('email');
@@ -13,15 +13,13 @@ if (window.location.pathname === '/index.html') {
   loginBtn.addEventListener('click', function(e) { 
     e.preventDefault();
     user.name = name.value;
-    if(name.value.length < 4) errors.addError('The Name must be at least 4 characters long');
+    errors.checkIfLength(name.value, 4, 'The name must be at least 4 chars long');
 
     user.email = email.value;
-    if(email.value.length < 4) errors.addError('The Email must be at least 4 characters long');
+    errors.checkIfEmail(email.value)
 
     user.password = password.value;
-    if(password.value.length < 4) errors.addError('The Passsword must be at least 4 characters long');
-
-    console.log(errors);
+    errors.checkIfLength(password.value, 4, 'The password must be at least 4 chars long');
 
     if(errors.values.length) { 
       let output = document.getElementById('errors');
