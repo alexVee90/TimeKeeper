@@ -45,3 +45,14 @@ body {
   background: var(--tertiary-color);
   color: #f4f4f4;
 }
+
+#errors { 
+  color: red;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#client-name {
+  text-transform: capitalize;
+}
