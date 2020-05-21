@@ -1,0 +1,14 @@
+.nav-list {
+  flex-direction: column;
+}
+
+#already-logged-in,
+#not-logged-in {
+  font-size: 1.3rem;
+}
+
+.btn {
+  padding: 0.5rem 1.3rem;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+}

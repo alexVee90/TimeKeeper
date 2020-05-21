@@ -30,7 +30,7 @@ body {
 
 .btn {
  display: block;
- margin: 0 auto;
+ margin: 1rem auto;
  background: var(--contrast-color);
  padding: 1rem 2.5rem;
  border: none;
@@ -55,4 +55,10 @@ body {
 
 #client-name {
   text-transform: capitalize;
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    max-width: 100%;
+  }
 }
