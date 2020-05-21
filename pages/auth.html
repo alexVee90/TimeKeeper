@@ -8,13 +8,31 @@
   <link rel="icon" href="./public/favicon.ico" type="image/x-icon"/>
   <!-- font awesome -->
   <script src="https://kit.fontawesome.com/17b916cdd9.js" crossorigin="anonymous"></script> 
+  <!-- google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
   <!-- css sheet -->
-  <link rel="stylesheet" href="./styles/style.css">
+  <link rel="stylesheet" href="./styles/utilities.css">
+  <link rel="stylesheet" href="./styles/main.css">
   <title>TimeKeeper</title>
 </head>
 <body>
-  <h1>Auth</h1>
+
+  <header id="main-header">
+    <ul class="nav-list container">
+      <li class="nav-list-item">
+        <i class="far fa-clock"></i>
+        <h3>TimeKeeper</h3>
+      </li>
+      <li class="nav-list-item">
+        Welcome <span id="client-name"></span>
+      </li>
+    </ul>
+  </header>
+
+  <footer id="main-footer" class="container">
+    <p>&copy; 2020 TimeKeeper</p>
+  </footer>
   <!-- js sheet -->
-  <script src="./js/main.js"></script>
+  <script src="./js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,47 @@
+*, *:before, *:after { 
+  margin: 0; 
+  padding: 0;
+}
+
+:root { 
+  font-size: 10px;
+  --main-color: #ffc857;
+  --secondary-color: #573d1c;
+  --tertiary-color: #C8963E;
+  --dark-color: #2E282A;
+  --contrast-color: #CFDBD5;
+  --width: 1260px;
+}
+
+body { 
+  font-family: 'Balsamiq Sans', cursive;
+}
+
+.container { 
+  max-width: var(--width);
+  margin: 0 auto;
+}
+
+.main-header { 
+  font-size: 2.4rem;
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.btn {
+ display: block;
+ margin: 0 auto;
+ background: var(--contrast-color);
+ padding: 1rem 2.5rem;
+ border: none;
+ border-radius: 1rem;
+ color: var(--dark-color);
+ font-weight: 700;
+ cursor: pointer;
+ transition: all 0.3s;
+}
+
+.btn:hover {
+  background: var(--tertiary-color);
+  color: #f4f4f4;
+}
