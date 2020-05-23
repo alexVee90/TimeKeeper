@@ -74,16 +74,7 @@ class Task {
     const data = JSON.parse(localStorage.getItem('data')) || [];
     data.push(this);
     localStorage.setItem('data', JSON.stringify(data));
-    return this;
-  }
-
-  //@desc outputs a message to the screen and clears after 3seconds
-  //@params html element | string 
-  outputMessage(element, msg) {
-    element.innerText = msg;
-    setTimeout(() => {
-      element.innerText = '';
-    }, 3000);
+    location.reload();
   }
 
   //@desc STATIC METHOD  -  gets all the tasks from local storage
@@ -91,6 +82,16 @@ class Task {
   static getTasks() {
     const data = JSON.parse(localStorage.getItem('data')) || [];
     return data;
+  }
+
+  //@desc STATIC METHOD  -  removes a task with a given id
+  //@params number 
+  //@returns an array of tasks 
+  static removeTask(id) {
+    const tasks = this.getTasks();
+    const newTasks = tasks.filter(item => item.id !== Number(id));
+    localStorage.setItem('data', JSON.stringify(newTasks));
+    location.reload();
   }
 
   //@desc STATIC METHOD  -  outputs to a provided element all the tasks from local storage
@@ -111,14 +112,15 @@ class Task {
           </li>
           <li class="item-info-difficulty">
           </li>
+          <input type="hidden" name="id" value=${item.id}>
         </ul>
         <div class="item-info-main">
           ${item.description}
         </div>
       </section>
       <section class="item-actions">
-        <i id="delete-btn" class="fas fa-trash"></i>
-        <i id="edit-btn" class="fas fa-edit"></i>
+        <i class="fas fa-trash delete-btns"></i>
+        <i class="fas fa-edit edit-btns"></i>
       </section>
     </li>`
     });

@@ -28,7 +28,14 @@ if (window.location.pathname === '/index.html') {
     const tasks = Task.getTasks().filter(task => task.belongsTo === USER.email);
     Task.renderInList(tasksShowcase, tasks)
 
-
+    //delete task
+    const deleteBtns = document.getElementsByClassName('delete-btns');
+    Array.from(deleteBtns).forEach(btn => {
+      btn.addEventListener('click', function(e) { 
+        const taskId = e.target.parentElement.parentElement.firstElementChild.firstElementChild.lastElementChild.value;
+        Task.removeTask(taskId);
+      })
+    })
 
 } else if (window.location.pathname === '/pages/alreadyLoggedIn.html') { 
   const logout = document.getElementById('logout');

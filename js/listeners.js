@@ -65,10 +65,6 @@ LISTENERS.addTask = function(e) {
     taskDuration.value = '';
     taskDescription.value = '';
     taskDate.value = '';
-
-    const actions = document.getElementById('actions');
-    //outputs a message on the screen for 3 seconds
-    newTask.outputMessage(actions, 'Task Added');
   }
 
 }
