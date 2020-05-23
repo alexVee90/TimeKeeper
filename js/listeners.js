@@ -65,6 +65,40 @@ LISTENERS.addTask = function(e) {
     taskDuration.value = '';
     taskDescription.value = '';
     taskDate.value = '';
+
+    location.reload();
+  }
+
+}
+
+LISTENERS.updateTask = function(e) {
+  e.preventDefault();
+  
+  const updatedName = document.getElementById('update-name');
+  const updatedDuration = document.getElementById('update-duration');
+  const updatedDate = document.getElementById('update-date');
+  const updatedId = document.getElementById('update-id');
+  const updatedDescription = document.getElementById('update-description');
+  const errors = new Errors();
+  
+  errors.checkIfLength(updatedName.value, 4, 'Name must have at least 4 chars');
+  errors.checkIfDuration(updatedDuration.value, 'Duration must be expressed as 12h34m || 34m || 2h');
+  errors.checkIfLength(updatedDescription.value, 4, 'Description must have at least 4 chars');
+  errors.checkIfEmpty(updatedDate.value, 'You must select a date');
+
+  if(errors.values.length) {
+
+    e.target.parentElement.parentElement.innerText = 'THE DATA PROVIDED IS INVALID \n Don\'t forget the description';
+    setTimeout(() => {
+      errors.values = [];
+      location.reload();
+    }, 1500);
+
+  } else {
+
+    Task.updateTask({name: updatedName.value, duration: updatedDuration.value, date: updatedDate.value, id: updatedId.value, description: updatedDescription.value, belongsTo: USER.email });
+    location.reload();
+    
   }
 
 }

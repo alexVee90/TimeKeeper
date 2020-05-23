@@ -68,14 +68,16 @@ class Task {
     this.id = Math.floor(Math.random() * 10000);
   }
 
+
+
   //@desc pushes the newly created task into the data array from local storage
-  //@returns the task;
   save() { 
     const data = JSON.parse(localStorage.getItem('data')) || [];
     data.push(this);
     localStorage.setItem('data', JSON.stringify(data));
-    location.reload();
   }
+
+
 
   //@desc STATIC METHOD  -  gets all the tasks from local storage
   //@returns an array of tasks 
@@ -84,15 +86,38 @@ class Task {
     return data;
   }
 
+
+
+  //@desc retrieves a task with the provided id
+  //@returns the task;
+  static getTask(id) {
+    const data = this.getTasks();
+    const task = data.find(item => Number(id) === Number(item.id));
+    return task;
+  }
+
+
+
   //@desc STATIC METHOD  -  removes a task with a given id
   //@params number 
   //@returns an array of tasks 
   static removeTask(id) {
     const tasks = this.getTasks();
-    const newTasks = tasks.filter(item => item.id !== Number(id));
+    const newTasks = tasks.filter(item => Number(item.id) !== Number(id));
     localStorage.setItem('data', JSON.stringify(newTasks));
-    location.reload();
   }
+
+
+
+  //@desc STATIC METHOD  -  updated a task from the array
+  //@params object - task of type Task
+  static updateTask(task) {
+    const tasks = this.getTasks();
+    const newTasks = tasks.map(item => Number(item.id) === Number(task.id) ? task : item);
+    localStorage.setItem('data', JSON.stringify(newTasks));
+  }
+
+
 
   //@desc STATIC METHOD  -  outputs to a provided element all the tasks from local storage
   //@params html element | array 
@@ -124,6 +149,34 @@ class Task {
       </section>
     </li>`
     });
+  }
+
+
+
+  //@desc STATIC METHOD  -  outputs to a provided element an edit form
+  //@params String | html element 
+  static renderEditForm(id, element) {
+    const task = this.getTask(id);
+
+    task.name = task.name.split(' ').join('');
+    task.description = task.description.split(' ').join('');
+
+    element.innerHTML = `
+
+      <form class="edit-form">
+        <section class="item-info">
+          <div className="item-info-header">
+            <input type="text" name="update-name" id="update-name" value=${task.name} />
+            <input type="text" name="update-duration" id="update-duration" value=${task.duration} />
+            <input type="date" name="update-date" id="update-date" value=${task.date} />
+            <input type="hidden" name="update-id" id="update-id" value=${task.id} />
+          </div>
+          <div className="item-info-main">
+            <textarea name="update-description" id="update-description" cols="30" rows="10" placeholder=${task.description}></textarea>
+          </div>
+      </section>
+      <button id="update-btn" class="btn">Submit</button>
+    </form>`
   }
 
 }
