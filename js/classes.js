@@ -68,6 +68,8 @@ class Task {
     this.id = Math.floor(Math.random() * 10000);
   }
 
+  //@desc pushes the newly created task into the data array from local storage
+  //@returns the task;
   save() { 
     const data = JSON.parse(localStorage.getItem('data')) || [];
     data.push(this);
@@ -75,6 +77,8 @@ class Task {
     return this;
   }
 
+  //@desc outputs a message to the screen and clears after 3seconds
+  //@params html element | string 
   outputMessage(element, msg) {
     element.innerText = msg;
     setTimeout(() => {
@@ -82,9 +86,42 @@ class Task {
     }, 3000);
   }
 
+  //@desc STATIC METHOD  -  gets all the tasks from local storage
+  //@returns an array of tasks 
   static getTasks() {
     const data = JSON.parse(localStorage.getItem('data')) || [];
     return data;
+  }
+
+  //@desc STATIC METHOD  -  outputs to a provided element all the tasks from local storage
+  //@params html element | array 
+  static renderInList(ul, tasks) {
+    tasks.forEach(item => {
+      ul.innerHTML += `<li class="task-item">
+      <section class="item-info">
+        <ul class="item-info-header">
+          <li class="item-info-name">
+            Name: ${item.name}
+          </li>
+          <li class="item-info-duration">
+            Duration: ${item.duration}
+          </li>
+          <li class="item-info-date">
+            Date: ${item.date}
+          </li>
+          <li class="item-info-difficulty">
+          </li>
+        </ul>
+        <div class="item-info-main">
+          ${item.description}
+        </div>
+      </section>
+      <section class="item-actions">
+        <i id="delete-btn" class="fas fa-trash"></i>
+        <i id="edit-btn" class="fas fa-edit"></i>
+      </section>
+    </li>`
+    });
   }
 
 }
