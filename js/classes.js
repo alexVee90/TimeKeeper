@@ -65,5 +65,26 @@ class Task {
     this.description = description;
     this.date = date;
     this.belongsTo = user;
+    this.id = Math.floor(Math.random() * 10000);
   }
+
+  save() { 
+    const data = JSON.parse(localStorage.getItem('data')) || [];
+    data.push(this);
+    localStorage.setItem('data', JSON.stringify(data));
+    return this;
+  }
+
+  outputMessage(element, msg) {
+    element.innerText = msg;
+    setTimeout(() => {
+      element.innerText = '';
+    }, 3000);
+  }
+
+  static getTasks() {
+    const data = JSON.parse(localStorage.getItem('data')) || [];
+    return data;
+  }
+
 }
