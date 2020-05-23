@@ -46,11 +46,11 @@ body {
   color: #f4f4f4;
 }
 
-#errors { 
+.errors { 
   color: red;
   font-size: 1.5rem;
   text-align: center;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 }
 
 #client-name {

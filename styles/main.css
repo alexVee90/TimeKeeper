@@ -34,6 +34,9 @@
 }
 
 /* HOME PAGE */
+#home {
+  padding: 4rem 0;
+}
 .main-form { 
   width: 30%;
   margin: 0 auto;
@@ -52,7 +55,8 @@
   margin-bottom: 1rem;
 }
 
-.form-group input { 
+.form-group input,
+.form-group textarea { 
   width: 95%;
   padding: 0.6rem;
   background: #f4f4f4;
@@ -68,11 +72,16 @@
   font-size: 2rem;
 }
 
+/* TASKS-PAGE */
+#tasks-page {
+  padding: 4rem 0;
+}
+
 
 /* FOOTER */
 #main-footer { 
   border-top: 2px solid var(--dark-color);
-  margin: 2rem auto;
+  margin: 0 auto;
   font-size: 1.6rem;
 }
 

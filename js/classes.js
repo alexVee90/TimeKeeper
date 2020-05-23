@@ -32,6 +32,23 @@ class Errors {
     if(input.length < num) this.addError(msg);
   }
 
+  //@desc checks if a value is not an empty string
+  //@params string | msg        :     string : value to be checked | custom message 
+  checkIfEmpty(input, msg) {
+    if(!input) this.addError(msg);
+  }
+
+
+  //@desc checks if a value is of the correct format (12h3m || 3m || 3h)
+  //@params string | msg        :     string : value to be checked | custom message 
+  checkIfDuration(input, msg) {
+    const hourCheck = /^[0-9][0-9]?h$/i;
+    const minuteCheck = /^[0-9][0-9]?m$/i;
+    const fullDateCheck = /^[0-9][0-9]?h[0-9][0-9]?m$/i;
+
+    if(!hourCheck.test(input) && !minuteCheck.test(input) && !fullDateCheck.test(input)) this.addError(msg);
+  }
+
   //@desc checks if a value is of type email 
   //@params string : value to be checked
   checkIfEmail(input) {
@@ -39,4 +56,14 @@ class Errors {
     if(!re.test(String(input).toLowerCase())) this.addError('Email must be of type email');
   }
 
+}
+
+class Task {
+  constructor(name, duration, description, date, user) {
+    this.name = name;
+    this.duration = duration;
+    this.description = description;
+    this.date = date;
+    this.belongsTo = user;
+  }
 }

@@ -18,7 +18,7 @@ LISTENERS.login = function(e) {
   errors.checkIfLength(password.value, 4, 'The password must be at least 4 chars long');
 
   if(errors.values.length) { 
-    let output = document.getElementById('errors');
+    let output = document.querySelector('.errors');
     //outputs the errors into the dom
     errors.outputErrors(output)
     //clears the values array and sets the output to an empty string

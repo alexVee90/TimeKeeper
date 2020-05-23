@@ -35,11 +35,41 @@
     </ul>
   </header>
 
+  <section id="tasks-page" class="container">
+    <div class="errors"></div>
+    <form class="main-form">
+      <h2 class="main-header">Add a Task</h2>
+      <div class="form-group">
+        <label for="task-name">Name</label>
+        <input type="text" name="task-name" id="task-name">
+      </div>
+      <div class="form-group">
+        <label for="task-duration">Duration</label>
+        <input type="text" name="task-duration" id="task-duration">
+      </div>
+      <div class="form-group">
+        <label for="task-description">Description</label>
+        <textarea 
+          name="task-description" 
+          id="task-description" 
+          cols="30"
+          rows="10"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="task-date">Date</label>
+        <input type="date" name="task-date" id="task-date">
+      </div>
+      <button id="add-task" class="btn">Submit</button>
+    </form>
+  </section>
+
   <footer id="main-footer" class="container">
     <p>&copy; 2020 TimeKeeper</p>
   </footer>
   <!-- js sheet -->
   <script src="../js/globals.js"></script>
+  <script src="../js/classes.js"></script>
   <script src="../js/app.js"></script>
 </body>
 </html>
