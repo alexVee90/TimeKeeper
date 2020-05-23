@@ -17,6 +17,18 @@ body {
   font-family: 'Balsamiq Sans', cursive;
 }
 
+ul {
+  list-style-type: none;
+}
+
+.fas {
+  cursor: pointer;
+}
+
+.fas:hover {
+  opacity: 0.6;
+}
+
 .container { 
   max-width: var(--width);
   margin: 0 auto;

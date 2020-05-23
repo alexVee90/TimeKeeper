@@ -77,6 +77,45 @@
   padding: 4rem 0;
 }
 
+fieldset {
+  margin-top: 4rem;
+}
+
+legend { 
+  font-size: 3rem;
+}
+
+.tasks-showcase {
+  margin: 3rem;
+}
+
+.task-item {
+  margin: 1rem 0;
+  padding: 3rem;
+  display: flex;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 2px 0px 46px -19px rgba(0,0,0,0.75);
+}
+
+.item-info {
+  flex-basis: 90%;
+}
+
+.item-info-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.item-actions {
+  flex-basis: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
 
 /* FOOTER */
 #main-footer { 
