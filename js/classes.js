@@ -42,8 +42,8 @@ class Errors {
   //@params string 
   //@returns boolean 
   checkIfMinutes(input) {
-    const minuteCheck = /^[0-9][0-9]?m$/i
-    return minuteCheck.test(input)
+    const minuteCheck = /^[0-5]?[0-9]m$/i;
+    return minuteCheck.test(input);
   }
 
   //@desc checks if the input is of the correct format 12h
@@ -51,14 +51,26 @@ class Errors {
   //@returns boolean 
   checkIfHours(input) {
     const hourCheck = /^[0-9][0-9]?h$/i;
+    const h = input.substr(0, input.length - 1);
+    if(Number(h) > 23) return false;
     return hourCheck.test(input);
+  }
+
+  //@desc checks if the input is of the correct format 12h:30m
+  //@params string 
+  //@returns boolean 
+  checkIfFullDate(input) {
+    const fullDateCheck = /^[0-9]?[0-9]h[0-5]?[0-9]m$/i;
+     if(fullDateCheck.test(input)) {
+       const h = input.split('h')[0];
+       return this.checkIfHours(`${h}h`);
+     }
   }
 
   //@desc checks if a value is of the correct format (12h3m || 3m || 3h)
   //@params string | msg        :     string : value to be checked | custom message 
   checkIfDuration(input, msg) {
-    const fullDateCheck = /^[0-9][0-9]?h[0-9][0-9]?m$/i;
-    if(!this.checkIfHours(input) && !this.checkIfMinutes(input) && !fullDateCheck.test(input)) this.addError(msg);
+    if(!this.checkIfHours(input) && !this.checkIfMinutes(input) && !this.checkIfFullDate(input)) this.addError(msg);
   }
 
   //@desc checks if a value is of type email 
@@ -130,7 +142,8 @@ class Task {
   }
 
 
-
+  //@desc STATIC METHOD  -  gets the total number of hours worked 
+  //@returns a string with the total number of hours and minutes worked
   static getTotal() {
 
     let total = new Date(Date.now());
@@ -143,7 +156,7 @@ class Task {
     tasks.forEach(item => {
       const duration = item.duration.replace(/[hm]/ig, ':');
       const itemDate = new Date(`${item.date} ${duration}`);
-
+      console.log(itemDate);
       const itemHours = itemDate.getHours();
       total.setHours(total.getHours() + itemHours);
       

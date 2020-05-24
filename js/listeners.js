@@ -46,7 +46,7 @@ LISTENERS.addTask = function(e) {
   const errors = new Errors();
 
   errors.checkIfLength(taskName.value, 4, 'Name must have at least 4 chars');
-  errors.checkIfDuration(taskDuration.value, 'Duration must be expressed as 12h34m || 34m || 2h');
+  errors.checkIfDuration(taskDuration.value, 'Duration must be expressed as 12h34m || 34m || 2h. h < 24 && m < 60');
   errors.checkIfLength(taskDescription.value, 4, 'Description must have at least 4 chars');
   errors.checkIfEmpty(taskDate.value, 'You must select a date');
 
