@@ -108,20 +108,18 @@ class Task {
 
     const errors = new Errors();
 
-    // const newTaskDate = this.createDate(task.date, task.duration);
-    // const taskTotalHoursInMinutes = (newTaskDate.getHours() * 60) + newTaskDate.getMinutes();
+    const newTaskDate = this.createDate(task.date, task.duration);
+    const taskTotalHoursInMinutes = (newTaskDate.getHours() * 60) + newTaskDate.getMinutes();
 
-    // const tasks = this.getTasks().filter(item => item.belongsTo === USER.email && item.data === task.date);
+    const totalh = this.getTotal(USER.email, task.date);
+    const dummyDate = this.createDate('2020-01-01', totalh);
+    const totalHoursInMinutes = (dummyDate.getHours() * 60) + dummyDate.getMinutes();
 
-    // const totalh = this.getTotal(USER.email);
-    // const dummyDate = this.createDate('2020-01-01', totalh);
-    // const totalHoursInMinutes = (dummyDate.getHours() * 60) + dummyDate.getMinutes();
+    const errorDiv = document.querySelector('.errors');
 
-    // const errorDiv = document.querySelector('.errors');
-
-    // if((totalHoursInMinutes + taskTotalHoursInMinutes) > 1440) {
-    //   errors.addError('Nobody can work for more than 24h per day');
-    // }
+    if((totalHoursInMinutes + taskTotalHoursInMinutes) > 1440) {
+      errors.addError('Nobody can work for more than 24h per day');
+    }
 
     if(errors.values.length) {
       errors.outputErrors(errorDiv);
@@ -156,8 +154,8 @@ class Task {
 
 
 
-  //@desc
-  //@params
+  //@desc gets the tasks that corespond to the period specified and belong to a certain user
+  //@params string | string
   static getTasksByDate(date, email) {
     const tasks = this.getTasks().filter(item => item.belongsTo === email);
     const returnedTasks = tasks.filter(item => item.date === date);
@@ -267,7 +265,7 @@ class Task {
 
 
 
-  //?????????????????????
+ //@returns an array of the unique dates for a certain user 
   static getUniqueDates(email) {
    const tasks = Task.getTasks().filter(item => item.belongsTo === email)
                                 .map(item => item.date)
