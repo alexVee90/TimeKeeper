@@ -1,3 +1,26 @@
+.green { 
+  background: green;
+  width: 3rem;
+  height: 1rem;
+}
+.yellow { 
+  background: yellow;
+  width: 3rem;
+  height: 1rem;
+}
+.red { 
+  background: red;
+  width: 3rem;
+  height: 1rem;
+}
+
+.main-form {
+  width: 60%;
+}
+
+.main-form .main-header {
+  display: none;
+}
 .nav-list {
   flex-direction: column;
 }
@@ -12,3 +35,24 @@
   margin-top: 0.5rem;
   font-size: 1.1rem;
 }
+
+.task-item {
+  flex-direction: column;
+}
+
+.task-item .item-info-header {
+  flex-direction: column;
+}
+
+.task-item .item-actions {
+  margin-top: 2rem;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.edit-form .form-group {
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.5rem;
+}
+

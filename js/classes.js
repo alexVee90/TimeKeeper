@@ -340,13 +340,22 @@ class Task {
 
       <form class="edit-form">
         <section class="item-info">
-          <div className="item-info-header">
-            <input type="text" name="update-name" id="update-name" value=${task.name} />
-            <input type="text" name="update-duration" id="update-duration" value=${task.duration} />
-            <input type="date" name="update-date" id="update-date" value=${task.date} />
+          <div class="item-info-header">
+            <div class="form-group">
+              <label for="update-name">Name</label>
+              <input type="text" name="update-name" id="update-name" value=${task.name} />
+            </div>
+            <div class="form-group">
+              <label for="update-duration">Duration</label>
+              <input type="text" name="update-duration" id="update-duration" value=${task.duration} />
+            </div>
+            <div class="form-group">
+              <label for="update-date">Date</label>
+              <input type="date" name="update-date" id="update-date" value=${task.date} />
+            </div>
             <input type="hidden" name="update-id" id="update-id" value=${task.id} />
           </div>
-          <div className="item-info-main">
+          <div class="item-info-main">
             <textarea name="update-description" id="update-description" cols="30" rows="10" placeholder=${task.description}></textarea>
           </div>
       </section>
@@ -355,3 +364,4 @@ class Task {
   }
 
 }
+

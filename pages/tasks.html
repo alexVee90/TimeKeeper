@@ -65,15 +65,17 @@
       <button id="add-task" class="btn">Submit</button>
     </form>
 
-    <form>
-      <select name="period" id="period">
-        
-      </select>
-      <button id="period-btn">Select</button>
-    </form>
+
 
     <fieldset>
       <legend>Tasks</legend>
+      <form id="select-form">
+        <div class="form-group">
+          <label for="period">Select a day</label>
+          <select name="period" id="period"></select>
+        </div>
+        <button id="period-btn">Select</button>
+      </form>
       <ul class="tasks-showcase">
 
       </ul>

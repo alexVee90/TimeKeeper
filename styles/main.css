@@ -81,6 +81,16 @@ fieldset {
   margin-top: 4rem;
 }
 
+#select-form {
+  width: 20%;
+  margin-top: 2rem;
+  margin-left: 3rem;
+}
+
+#select-form .form-group {
+  margin: 0 0 1rem;
+}
+
 legend { 
   font-size: 3rem;
 }
@@ -119,6 +129,31 @@ legend {
 .item-info-difficulty {
   display: flex;
   align-items: center;
+}
+
+.edit-form {
+  width: 100%;
+}
+
+/* .edit-form .item-info {
+  width: 100%;
+} */
+
+.edit-form .item-info .item-info-header {
+  justify-content: space-evenly;
+}
+
+.edit-form .form-group label {
+  margin: 0 0.5rem 0;
+}
+
+.edit-form .form-group {
+  display: flex;
+  align-items: center;
+}
+
+.edit-form .item-info-main textarea {
+  width: 100%;
 }
 
 

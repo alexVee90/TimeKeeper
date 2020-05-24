@@ -1,9 +1,11 @@
 //GLOBAL VARS = USER : {}
 //              LISTENERS: {}
 //              TASK: {}
+ 
 
 if (window.location.pathname === '/index.html') { 
 
+  //redirects if the user is not logged in;
   if(Object.keys(USER).length) window.location.pathname = '/pages/alreadyLoggedIn.html';
   
   const loginBtn = document.getElementById('login-btn');
@@ -12,8 +14,10 @@ if (window.location.pathname === '/index.html') {
 
 } else if (window.location.pathname === "/pages/tasks.html") { 
 
+  //redirects if the user is not logged in;
   if(!Object.keys(USER).length) window.location.pathname = './pages/notLoggedIn.html';
 
+    //gets the initial value for the selected day from local storage or the current day if undefined
     let selectedValue = localStorage.getItem('selectedValue') || Task.getCurrentDay();
 
 
@@ -89,12 +93,13 @@ if (window.location.pathname === '/index.html') {
     //get total
     const totalElement = document.getElementById('total');
     const result = Task.getTotal(USER.email, selectedValue);
-    totalElement.innerText = `Total time worked: ${result}`
+    totalElement.innerText = `Total time worked: ${result}`;
 
 } else if (window.location.pathname === '/pages/alreadyLoggedIn.html') { 
+
   const logout = document.getElementById('logout');
-  console.log(logout);
-  logout.addEventListener('click', LISTENERS.logout)
+  logout.addEventListener('click', LISTENERS.logout);
+
 }
 
 
