@@ -82,11 +82,19 @@ class Errors {
 
 }
 
+
+
+
+
+
+
+
 class Task {
-  constructor(name, duration, description, date, user) {
+  constructor(name, duration, description, difficulty, date, user) {
     this.name = name;
     this.duration = duration;
     this.description = description;
+    this.difficulty = difficulty;
     this.date = date;
     this.belongsTo = user;
     this.id = Math.floor(Math.random() * 10000);
@@ -133,6 +141,7 @@ class Task {
 
 
 
+
   //@desc STATIC METHOD  -  updated a task from the array
   //@params object - task of type Task
   static updateTask(task) {
@@ -142,27 +151,48 @@ class Task {
   }
 
 
+
+
+
+  //@desc takes in the date(d/m/y) and time spent string (which is parsed as per requirements)
+  //@params string | string 
+  //@returns a date object 
+  static createDate(date, duration) {
+
+    const adjDuration = duration.replace(/[hm]/ig, ':');
+    const itemDate = new Date(`${date} ${adjDuration}`);
+
+    return itemDate;
+  }
+
+
+
+
   //@desc STATIC METHOD  -  gets the total number of hours worked 
   //@returns a string with the total number of hours and minutes worked
-  static getTotal() {
+  static getTotal(email) {
 
     let total = new Date(Date.now());
     total.setHours(0);
     total.setMinutes(0);
     total.setSeconds(0);
 
-    const tasks = this.getTasks();
+    const tasks = this.getTasks().filter(item => item.belongsTo === email);
 
-    tasks.forEach(item => {
-      const duration = item.duration.replace(/[hm]/ig, ':');
-      const itemDate = new Date(`${item.date} ${duration}`);
-      console.log(itemDate);
-      const itemHours = itemDate.getHours();
-      total.setHours(total.getHours() + itemHours);
-      
-      const itemMinutes = itemDate.getMinutes();
-      total.setMinutes(total.getMinutes() + itemMinutes);
-    });
+    if(tasks.length) {
+
+      tasks.forEach(item => {
+        //returns the tasks date as a date obj
+        const itemDate = this.createDate(item.date, item.duration);
+
+        const itemHours = itemDate.getHours();
+        total.setHours(total.getHours() + itemHours);
+        
+        const itemMinutes = itemDate.getMinutes();
+        total.setMinutes(total.getMinutes() + itemMinutes);
+      });
+
+    }
 
     const totalHours = total.getHours();
     const totalMinutes = total.getMinutes();
@@ -175,6 +205,24 @@ class Task {
 
 
 
+  //@desc STATIC METHOD  -  computes the difficulty based on the duration
+  //@params obj | string
+  //@returns a string 
+  static computeDifficulty(date, duration) {
+
+    const td = this.createDate(date, duration);
+    const h = td.getHours() * 60;
+    const total =  h + td.getMinutes();
+    
+    if(total > 0 && total < 90) return 'green';
+    if(total >= 90 && total < 180) return 'yellow';
+    if(total >= 180) return 'red';
+
+  }
+
+
+
+  
   //@desc STATIC METHOD  -  outputs to a provided element all the tasks from local storage
   //@params html element | array 
   static renderInList(ul, tasks) {
@@ -192,6 +240,7 @@ class Task {
             Date: ${item.date}
           </li>
           <li class="item-info-difficulty">
+            <p>Difficulty:</p> <span class=${item.difficulty}></span>
           </li>
           <input type="hidden" name="id" value=${item.id}>
         </ul>

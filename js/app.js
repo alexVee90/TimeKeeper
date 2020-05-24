@@ -62,7 +62,7 @@ if (window.location.pathname === '/index.html') {
 
     //get total
     const totalElement = document.getElementById('total');
-    const result = Task.getTotal();
+    const result = Task.getTotal(USER.email);
     totalElement.innerText = `Total time worked today: ${result}`
 
 } else if (window.location.pathname === '/pages/alreadyLoggedIn.html') { 

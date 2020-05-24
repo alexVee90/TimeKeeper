@@ -116,6 +116,11 @@ legend {
   justify-content: space-between;
 }
 
+.item-info-difficulty {
+  display: flex;
+  align-items: center;
+}
+
 
 /* FOOTER */
 #main-footer { 

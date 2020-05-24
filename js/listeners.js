@@ -70,7 +70,10 @@ LISTENERS.addTask = function(e) {
       adjustedDuration = `${taskDuration.value}0m`
     }
 
-    const newTask = new Task(taskName.value, adjustedDuration, taskDescription.value, taskDate.value, USER.email);
+    //computes the difficulty based on the duration
+    const difficulty = Task.computeDifficulty(taskDate.value, adjustedDuration);
+
+    const newTask = new Task(taskName.value, adjustedDuration, taskDescription.value, difficulty, taskDate.value, USER.email);
     //saves the task to the data array in local object;
     newTask.save();
 
@@ -109,7 +112,20 @@ LISTENERS.updateTask = function(e) {
 
   } else {
 
-    Task.updateTask({name: updatedName.value, duration: updatedDuration.value, date: updatedDate.value, id: updatedId.value, description: updatedDescription.value, belongsTo: USER.email });
+    let adjustedDuration = updatedDuration.value;
+
+    if (errors.checkIfMinutes(updatedDuration.value)) {
+      adjustedDuration = `0h${updatedDuration.value}`
+    }
+
+    if (errors.checkIfHours(updatedDuration.value)) {
+      adjustedDuration = `${updatedDuration.value}0m`
+    }
+
+    //computes the difficulty based on the duration
+    const difficulty = Task.computeDifficulty(updatedDate.value, adjustedDuration);
+
+    Task.updateTask({name: updatedName.value, duration: adjustedDuration, difficulty, date: updatedDate.value, id: updatedId.value, description: updatedDescription.value, belongsTo: USER.email });
     location.reload();
     
   }
