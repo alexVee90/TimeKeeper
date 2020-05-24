@@ -38,15 +38,27 @@ class Errors {
     if(!input) this.addError(msg);
   }
 
+  //@desc checks if the input is of the correct format 3m
+  //@params string 
+  //@returns boolean 
+  checkIfMinutes(input) {
+    const minuteCheck = /^[0-9][0-9]?m$/i
+    return minuteCheck.test(input)
+  }
+
+  //@desc checks if the input is of the correct format 12h
+  //@params string 
+  //@returns boolean 
+  checkIfHours(input) {
+    const hourCheck = /^[0-9][0-9]?h$/i;
+    return hourCheck.test(input);
+  }
 
   //@desc checks if a value is of the correct format (12h3m || 3m || 3h)
   //@params string | msg        :     string : value to be checked | custom message 
   checkIfDuration(input, msg) {
-    const hourCheck = /^[0-9][0-9]?h$/i;
-    const minuteCheck = /^[0-9][0-9]?m$/i;
     const fullDateCheck = /^[0-9][0-9]?h[0-9][0-9]?m$/i;
-
-    if(!hourCheck.test(input) && !minuteCheck.test(input) && !fullDateCheck.test(input)) this.addError(msg);
+    if(!this.checkIfHours(input) && !this.checkIfMinutes(input) && !fullDateCheck.test(input)) this.addError(msg);
   }
 
   //@desc checks if a value is of type email 
@@ -115,6 +127,37 @@ class Task {
     const tasks = this.getTasks();
     const newTasks = tasks.map(item => Number(item.id) === Number(task.id) ? task : item);
     localStorage.setItem('data', JSON.stringify(newTasks));
+  }
+
+
+
+  static getTotal() {
+
+    let total = new Date(Date.now());
+    total.setHours(0);
+    total.setMinutes(0);
+    total.setSeconds(0);
+
+    const tasks = this.getTasks();
+
+    tasks.forEach(item => {
+      const duration = item.duration.replace(/[hm]/ig, ':');
+      const itemDate = new Date(`${item.date} ${duration}`);
+
+      const itemHours = itemDate.getHours();
+      total.setHours(total.getHours() + itemHours);
+      
+      const itemMinutes = itemDate.getMinutes();
+      total.setMinutes(total.getMinutes() + itemMinutes);
+    });
+
+    const totalHours = total.getHours();
+    const totalMinutes = total.getMinutes();
+
+    const result = `${totalHours}h${totalMinutes}m`;
+
+    return result;
+
   }
 
 

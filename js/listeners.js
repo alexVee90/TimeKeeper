@@ -50,6 +50,8 @@ LISTENERS.addTask = function(e) {
   errors.checkIfLength(taskDescription.value, 4, 'Description must have at least 4 chars');
   errors.checkIfEmpty(taskDate.value, 'You must select a date');
 
+
+
   if(errors.values.length) {
     let output = document.querySelector('.errors');
     //outputs the errors into the dom
@@ -57,7 +59,18 @@ LISTENERS.addTask = function(e) {
     //clears the values array and sets the output to an empty string
     errors.clearErrors(output);
   } else {
-    const newTask = new Task(taskName.value, taskDuration.value, taskDescription.value, taskDate.value, USER.email);
+
+    let adjustedDuration = taskDuration.value;
+
+    if (errors.checkIfMinutes(taskDuration.value)) {
+      adjustedDuration = `0h${taskDuration.value}`
+    }
+
+    if (errors.checkIfHours(taskDuration.value)) {
+      adjustedDuration = `${taskDuration.value}0m`
+    }
+
+    const newTask = new Task(taskName.value, adjustedDuration, taskDescription.value, taskDate.value, USER.email);
     //saves the task to the data array in local object;
     newTask.save();
 

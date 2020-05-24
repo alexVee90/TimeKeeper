@@ -59,6 +59,12 @@ if (window.location.pathname === '/index.html') {
       });
     });
 
+
+    //get total
+    const totalElement = document.getElementById('total');
+    const result = Task.getTotal();
+    totalElement.innerText = `Total time worked today: ${result}`
+
 } else if (window.location.pathname === '/pages/alreadyLoggedIn.html') { 
   const logout = document.getElementById('logout');
   console.log(logout);
