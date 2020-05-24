@@ -103,10 +103,36 @@ class Task {
 
 
   //@desc pushes the newly created task into the data array from local storage
-  save() { 
+  static save(task) { 
     const data = JSON.parse(localStorage.getItem('data')) || [];
-    data.push(this);
-    localStorage.setItem('data', JSON.stringify(data));
+
+    const errors = new Errors();
+
+    // const newTaskDate = this.createDate(task.date, task.duration);
+    // const taskTotalHoursInMinutes = (newTaskDate.getHours() * 60) + newTaskDate.getMinutes();
+
+    // const tasks = this.getTasks().filter(item => item.belongsTo === USER.email && item.data === task.date);
+
+    // const totalh = this.getTotal(USER.email);
+    // const dummyDate = this.createDate('2020-01-01', totalh);
+    // const totalHoursInMinutes = (dummyDate.getHours() * 60) + dummyDate.getMinutes();
+
+    // const errorDiv = document.querySelector('.errors');
+
+    // if((totalHoursInMinutes + taskTotalHoursInMinutes) > 1440) {
+    //   errors.addError('Nobody can work for more than 24h per day');
+    // }
+
+    if(errors.values.length) {
+      errors.outputErrors(errorDiv);
+      errors.clearErrors(errorDiv);
+      return false;
+    } else {
+      data.push(task);
+      localStorage.setItem('data', JSON.stringify(data));
+      return true;
+    }
+
   }
 
 
@@ -126,6 +152,16 @@ class Task {
     const data = this.getTasks();
     const task = data.find(item => Number(id) === Number(item.id));
     return task;
+  }
+
+
+
+  //@desc
+  //@params
+  static getTasksByDate(date, email) {
+    const tasks = this.getTasks().filter(item => item.belongsTo === email);
+    const returnedTasks = tasks.filter(item => item.date === date);
+    return returnedTasks;
   }
 
 
@@ -170,18 +206,19 @@ class Task {
 
   //@desc STATIC METHOD  -  gets the total number of hours worked 
   //@returns a string with the total number of hours and minutes worked
-  static getTotal(email) {
+  static getTotal(email, date) {
 
     let total = new Date(Date.now());
     total.setHours(0);
     total.setMinutes(0);
     total.setSeconds(0);
 
-    const tasks = this.getTasks().filter(item => item.belongsTo === email);
+    const tasksforProvidedEmail = this.getTasks().filter(item => item.belongsTo === email);
+    const tasksforCurrentDay = tasksforProvidedEmail.filter(item => item.date === date);
 
-    if(tasks.length) {
+    if(tasksforCurrentDay.length) {
 
-      tasks.forEach(item => {
+      tasksforCurrentDay.forEach(item => {
         //returns the tasks date as a date obj
         const itemDate = this.createDate(item.date, item.duration);
 
@@ -205,6 +242,41 @@ class Task {
 
 
 
+  //@returns the current date in format yyyy-mm-dd
+  static getCurrentDay() {
+    const dummyDate = new Date(Date.now());
+    const year = dummyDate.getFullYear();
+    const month = dummyDate.getMonth() + 1;
+    const day = dummyDate.getUTCDate();
+
+    let newMonth = String(month);
+    let newDay = String(day);
+
+    if(newMonth.length < 2) {
+      newMonth = `0${month}`
+    }
+
+    if(newDay.length < 2) {
+      newDay = `0${day}`
+    }
+
+    const current = `${year}-${newMonth}-${newDay}`
+
+    return current;
+  }
+
+
+
+  //?????????????????????
+  static getUniqueDates(email) {
+   const tasks = Task.getTasks().filter(item => item.belongsTo === email)
+                                .map(item => item.date)
+                                .filter((item, i, arr) => arr.indexOf(item) === i);
+    return tasks;
+  }
+
+
+
   //@desc STATIC METHOD  -  computes the difficulty based on the duration
   //@params obj | string
   //@returns a string 
@@ -222,7 +294,7 @@ class Task {
 
 
 
-  
+
   //@desc STATIC METHOD  -  outputs to a provided element all the tasks from local storage
   //@params html element | array 
   static renderInList(ul, tasks) {

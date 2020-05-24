@@ -14,10 +14,36 @@ if (window.location.pathname === '/index.html') {
 
   if(!Object.keys(USER).length) window.location.pathname = './pages/notLoggedIn.html';
 
+    let selectedValue = localStorage.getItem('selectedValue') || Task.getCurrentDay();
+
+
     //adds the name of the user to the navbar
     const { name } = USER;
     const clientName = document.getElementById('client-name');
     clientName.innerText = `Welcome ${name}`;
+
+
+    //render unique dates in the select tag
+    const selectElement = document.getElementById('period');
+    const uniqueSelectVals = Task.getUniqueDates(USER.email);
+    uniqueSelectVals.forEach(item => {
+      if(item === selectedValue) {
+        return selectElement.innerHTML += `<option value=${item} selected=${true}>${item}</option>`
+      } else {
+        return selectElement.innerHTML += `<option value=${item}>${item}</option>`
+      }
+      
+    });
+
+
+    //get selected date
+    const periodBtn = document.getElementById('period-btn');
+    periodBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      selectedValue = selectElement.value;
+      localStorage.setItem('selectedValue', selectedValue)
+      location.reload();
+    });
 
 
     //adds a task to local storage
@@ -27,8 +53,8 @@ if (window.location.pathname === '/index.html') {
 
     //displays all the tasks on the page
     const tasksShowcase = document.querySelector('.tasks-showcase');  
-    const tasks = Task.getTasks().filter(task => task.belongsTo === USER.email);
-    Task.renderInList(tasksShowcase, tasks)
+    const filteredTasksByDateAndEmail = Task.getTasksByDate(selectedValue, USER.email);
+    Task.renderInList(tasksShowcase, filteredTasksByDateAndEmail)
 
 
     //delete task
@@ -62,8 +88,8 @@ if (window.location.pathname === '/index.html') {
 
     //get total
     const totalElement = document.getElementById('total');
-    const result = Task.getTotal(USER.email);
-    totalElement.innerText = `Total time worked today: ${result}`
+    const result = Task.getTotal(USER.email, selectedValue);
+    totalElement.innerText = `Total time worked: ${result}`
 
 } else if (window.location.pathname === '/pages/alreadyLoggedIn.html') { 
   const logout = document.getElementById('logout');

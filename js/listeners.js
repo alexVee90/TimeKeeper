@@ -74,15 +74,15 @@ LISTENERS.addTask = function(e) {
     const difficulty = Task.computeDifficulty(taskDate.value, adjustedDuration);
 
     const newTask = new Task(taskName.value, adjustedDuration, taskDescription.value, difficulty, taskDate.value, USER.email);
-    //saves the task to the data array in local object;
-    newTask.save();
+    //saves the task to the data array in local object and returns true if saving succeds 
+    const success = Task.save(newTask);
 
     taskName.value = '';
     taskDuration.value = '';
     taskDescription.value = '';
     taskDate.value = '';
 
-    location.reload();
+    if(success) location.reload();
   }
 
 }
