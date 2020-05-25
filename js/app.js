@@ -1,6 +1,7 @@
 //GLOBAL VARS = USER : {}
 //              LISTENERS: {}
-//              TASK: {}
+//              TASK: class
+//              ERRORS: class
  
 
 if (window.location.pathname === '/index.html') { 
@@ -17,15 +18,16 @@ if (window.location.pathname === '/index.html') {
   //redirects if the user is not logged in;
   if(!Object.keys(USER).length) window.location.pathname = './pages/notLoggedIn.html';
 
-    //gets the initial value for the selected day from local storage or the current day if undefined
-    let selectedValue = localStorage.getItem('selectedValue') || Task.getCurrentDay();
-
 
     //adds the name of the user to the navbar
     const { name } = USER;
     const clientName = document.getElementById('client-name');
     clientName.innerText = `Welcome ${name}`;
 
+    
+
+    //gets the initial value for the selected day from local storage or the current day if non-existent
+    let selectedValue = localStorage.getItem('selectedValue') || Task.getCurrentDay();
 
     //render unique dates in the select tag
     const selectElement = document.getElementById('period');
@@ -39,7 +41,6 @@ if (window.location.pathname === '/index.html') {
       
     });
 
-
     //get selected date
     const periodBtn = document.getElementById('period-btn');
     periodBtn.addEventListener('click', function(e) {
@@ -50,6 +51,7 @@ if (window.location.pathname === '/index.html') {
     });
 
 
+
     //adds a task to local storage
     const addTaskBtn = document.getElementById('add-task');
     addTaskBtn.addEventListener('click', LISTENERS.addTask);
@@ -58,7 +60,7 @@ if (window.location.pathname === '/index.html') {
     //displays all the tasks on the page
     const tasksShowcase = document.querySelector('.tasks-showcase');  
     const filteredTasksByDateAndEmail = Task.getTasksByDate(selectedValue, USER.email);
-    Task.renderInList(tasksShowcase, filteredTasksByDateAndEmail)
+    Task.renderInList(tasksShowcase, filteredTasksByDateAndEmail);
 
 
     //delete task

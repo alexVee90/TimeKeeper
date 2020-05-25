@@ -296,34 +296,42 @@ class Task {
   //@desc STATIC METHOD  -  outputs to a provided element all the tasks from local storage
   //@params html element | array 
   static renderInList(ul, tasks) {
-    tasks.forEach(item => {
-      ul.innerHTML += `<li class="task-item">
-      <section class="item-info">
-        <ul class="item-info-header">
-          <li class="item-info-name">
-            Name: ${item.name}
-          </li>
-          <li class="item-info-duration">
-            Duration: ${item.duration}
-          </li>
-          <li class="item-info-date">
-            Date: ${item.date}
-          </li>
-          <li class="item-info-difficulty">
-            <p>Difficulty:</p> <span class=${item.difficulty}></span>
-          </li>
-          <input type="hidden" name="id" value=${item.id}>
-        </ul>
-        <div class="item-info-main">
-          ${item.description}
-        </div>
-      </section>
-      <section class="item-actions">
-        <i class="fas fa-trash delete-btns"></i>
-        <i class="fas fa-edit edit-btns"></i>
-      </section>
-    </li>`
-    });
+
+    if(tasks.length) {
+
+      tasks.forEach(item => {
+        ul.innerHTML += `<li class="task-item">
+        <section class="item-info">
+          <ul class="item-info-header">
+            <li class="item-info-name">
+              Name: ${item.name}
+            </li>
+            <li class="item-info-duration">
+              Duration: ${item.duration}
+            </li>
+            <li class="item-info-date">
+              Date: ${item.date}
+            </li>
+            <li class="item-info-difficulty">
+              <p>Difficulty:</p> <span class=${item.difficulty}></span>
+            </li>
+            <input type="hidden" name="id" value=${item.id}>
+          </ul>
+          <div class="item-info-main">
+            ${item.description}
+          </div>
+        </section>
+        <section class="item-actions">
+          <i class="fas fa-trash delete-btns"></i>
+          <i class="fas fa-edit edit-btns"></i>
+        </section>
+      </li>`
+      });
+
+    } else {
+      ul.innerHTML = `<p class="main-header">No more items for this day, try selecting an available date from the dropdown and hitting the select button. If there are no more available dates, try adding another task</p>`
+    }
+
   }
 
 
