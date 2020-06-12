@@ -2,7 +2,8 @@ const LISTENERS = {};
 
 LISTENERS.logout = function(e){
   localStorage.removeItem('USER');
-  window.location.pathname = '/index.html';
+
+  window.location.pathname = createRoute('index.html')
 }
 
 LISTENERS.login = function(e) { 
@@ -30,7 +31,8 @@ LISTENERS.login = function(e) {
     USER.password = password.value;
 
     localStorage.setItem('USER', JSON.stringify(USER));
-    window.location.pathname = '/pages/tasks.html';
+
+    window.location.pathname = createRoute('pages/tasks.html');
   }
 
 }

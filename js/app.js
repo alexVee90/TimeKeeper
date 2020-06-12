@@ -1,22 +1,30 @@
 //GLOBAL VARS = USER : {}
 //              LISTENERS: {}
+//              URL: []
+//              createRoute: () => {}
 //              TASK: class
 //              ERRORS: class
  
 
-if (window.location.pathname === '/index.html') { 
+const path = URL[URL.length - 1];
+console.log(path);
+
+if (path === 'index.html') { 
 
   //redirects if the user is not logged in;
-  if(Object.keys(USER).length) window.location.pathname = '/pages/alreadyLoggedIn.html';
+  if(Object.keys(USER).length) window.location.pathname = createRoute('pages/alreadyLoggedIn.html');
+  
   
   const loginBtn = document.getElementById('login-btn');
 
   loginBtn.addEventListener('click', LISTENERS.login);
 
-} else if (window.location.pathname === "/pages/tasks.html") { 
+} else if (path === "tasks.html") { 
 
   //redirects if the user is not logged in;
-  if(!Object.keys(USER).length) window.location.pathname = './pages/notLoggedIn.html';
+  if(!Object.keys(USER).length) {
+    window.location.pathname = createRoute('pages/notLoggedIn.html')
+  }
 
 
     //adds the name of the user to the navbar
@@ -97,7 +105,7 @@ if (window.location.pathname === '/index.html') {
     const result = Task.getTotal(USER.email, selectedValue);
     totalElement.innerText = `Total time worked: ${result}`;
 
-} else if (window.location.pathname === '/pages/alreadyLoggedIn.html') { 
+} else if (path === 'alreadyLoggedIn.html') { 
 
   const logout = document.getElementById('logout');
   logout.addEventListener('click', LISTENERS.logout);
