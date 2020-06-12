@@ -7,7 +7,6 @@
  
 
 const path = URL[URL.length - 1];
-console.log(path);
 
 if (path === 'index.html') { 
 
