@@ -273,6 +273,8 @@ class Task {
     return tasks;
   }
 
+  ['09-04-2019', '09-04-2019']
+
 
 
   //@desc STATIC METHOD  -  computes the difficulty based on the duration
