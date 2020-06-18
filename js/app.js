@@ -7,8 +7,8 @@
  
 
 const path = URL[URL.length - 1];
-
-if (path === 'index.html') { 
+console.log(path);
+if (path === 'index.html' || path === '') { 
 
   //redirects if the user is not logged in;
   if(Object.keys(USER).length) window.location.pathname = createRoute('pages/alreadyLoggedIn.html');
