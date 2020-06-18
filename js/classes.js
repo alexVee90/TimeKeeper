@@ -80,6 +80,7 @@ class Errors {
     if(!re.test(String(input).toLowerCase())) this.addError('Email must be of type email');
   }
 
+
 }
 
 
@@ -106,22 +107,10 @@ class Task {
   static save(task) { 
     const data = JSON.parse(localStorage.getItem('data')) || [];
 
-    const errors = new Errors();
-
-    const newTaskDate = this.createDate(task.date, task.duration);
-    const taskTotalHoursInMinutes = (newTaskDate.getHours() * 60) + newTaskDate.getMinutes();
-
-    const totalh = this.getTotal(USER.email, task.date);
-    const dummyDate = this.createDate('2020-01-01', totalh);
-    const totalHoursInMinutes = (dummyDate.getHours() * 60) + dummyDate.getMinutes();
-
-    const errorDiv = document.querySelector('.errors');
-
-    if((totalHoursInMinutes + taskTotalHoursInMinutes) > 1440) {
-      errors.addError('Nobody can work for more than 24h per day');
-    }
+    const errors = this.checkIfOverFullDay(task, USER);
 
     if(errors.values.length) {
+      const errorDiv = document.querySelector('.errors');
       errors.outputErrors(errorDiv);
       errors.clearErrors(errorDiv);
       return false;
@@ -132,8 +121,6 @@ class Task {
     }
 
   }
-
-
 
   //@desc STATIC METHOD  -  gets all the tasks from local storage
   //@returns an array of tasks 
@@ -179,11 +166,43 @@ class Task {
   //@desc STATIC METHOD  -  updated a task from the array
   //@params object - task of type Task
   static updateTask(task) {
-    const tasks = this.getTasks();
-    const newTasks = tasks.map(item => Number(item.id) === Number(task.id) ? task : item);
-    localStorage.setItem('data', JSON.stringify(newTasks));
+      const errors = this.checkIfOverFullDay(task, USER, true);
+
+     if(errors.values.length) {
+       return false
+     } else {
+      const tasks = this.getTasks();
+      const newTasks = tasks.map(item => Number(item.id) === Number(task.id) ? task : item);
+      localStorage.setItem('data', JSON.stringify(newTasks));
+      return true
+     }
   }
 
+
+  
+  static checkIfOverFullDay(task, user, isNew = false) {
+    const errors = new Errors();
+
+    const taskTotalHoursInMinutes = this.turnDurationToMinutes(task.duration);
+
+     //checks if there is we are in edit mode and returns either totalh or totalh - the updated task
+    let totalh = isNew ? this.getTotal(user.email, task.date, task) : this.getTotal(user.email, task.date);
+
+    const totalHoursInMinutes = this.turnDurationToMinutes(totalh);
+
+    if((totalHoursInMinutes + taskTotalHoursInMinutes) >= 1440) {
+      errors.addError('Nobody can work for more than 24h per day');
+    }
+    return errors;
+  }
+
+
+
+
+  static turnDurationToMinutes(duration) {
+    const customDate = this.createDate('2020-01-01', duration);
+    return (customDate.getHours() * 60) + customDate.getMinutes();
+  }
 
 
 
@@ -204,7 +223,7 @@ class Task {
 
   //@desc STATIC METHOD  -  gets the total number of hours worked 
   //@returns a string with the total number of hours and minutes worked
-  static getTotal(email, date) {
+  static getTotal(email, date, task = null) {
 
     let total = new Date(Date.now());
     total.setHours(0);
@@ -212,7 +231,12 @@ class Task {
     total.setSeconds(0);
 
     const tasksforProvidedEmail = this.getTasks().filter(item => item.belongsTo === email);
-    const tasksforCurrentDay = tasksforProvidedEmail.filter(item => item.date === date);
+    let tasksforCurrentDay = tasksforProvidedEmail.filter(item => item.date === date);
+
+    //checks if there is we are in edit mode and removes the task from the list
+    if(task) {
+      tasksforCurrentDay = tasksforCurrentDay.filter(item => Number(item.id) !== Number(task.id));
+    }
 
     if(tasksforCurrentDay.length) {
 
@@ -273,10 +297,6 @@ class Task {
     return tasks;
   }
 
-  ['09-04-2019', '09-04-2019']
-
-
-
   //@desc STATIC METHOD  -  computes the difficulty based on the duration
   //@params obj | string
   //@returns a string 
@@ -291,6 +311,8 @@ class Task {
     if(total >= 180) return 'red';
 
   }
+
+  
 
 
 

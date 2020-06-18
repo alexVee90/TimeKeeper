@@ -92,12 +92,13 @@ LISTENERS.addTask = function (e) {
     //saves the task to the data array in local object and returns true if saving succeds
     const success = Task.save(newTask);
 
-    taskName.value = '';
-    taskDuration.value = '';
-    taskDescription.value = '';
-    taskDate.value = '';
-
     if (success) {
+
+      taskName.value = '';
+      taskDuration.value = '';
+      taskDescription.value = '';
+      taskDate.value = '';
+
       location.reload();
     }
   }
@@ -149,7 +150,7 @@ LISTENERS.updateTask = function (e) {
       adjustedDuration
     );
 
-    Task.updateTask({
+    const success = Task.updateTask({
       name: updatedName.value,
       duration: adjustedDuration,
       difficulty,
@@ -158,6 +159,13 @@ LISTENERS.updateTask = function (e) {
       description: updatedDescription.value,
       belongsTo: USER.email,
     });
-    location.reload();
+
+      if(success) {
+        location.reload();
+      } else { 
+        e.target.parentElement.parentElement.innerText = "Still can't work for more than 24h";
+        setTimeout(() => location.reload(), 1500);
+      }
+
   }
 };
